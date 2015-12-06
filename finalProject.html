@@ -86,6 +86,9 @@
     <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&signed_in=true&libraries=places&callback=initMap"
       async defer></script> -->
     <script>
+      var map;
+      var boxpolys = null;
+
       $(document).ready(function(){
         initMap();
       });
@@ -93,7 +96,7 @@
         var origin_place_id = null;
         var destination_place_id = null;
         var travel_mode = google.maps.TravelMode.WALKING;
-        var map = new google.maps.Map(document.getElementById('map'), {
+        map = new google.maps.Map(document.getElementById('map'), {
           // when map type control is false, there is no option for mapsatellite
           mapTypeControl: false,
           center: {lat: 40.7903, lng: -73.9597},
@@ -172,7 +175,7 @@
         });
 
         var routeBoxer = new RouteBoxer();
-        var distance = 1; // km
+        var distance = 0.2; // km
         console.log(routeBoxer);
 
         function route(origin_place_id, destination_place_id, travel_mode,
@@ -180,11 +183,13 @@
           if (!origin_place_id || !destination_place_id) {
             return;
           }
-          directionsService.route({
+          var request = {
             origin: {'placeId': origin_place_id},
             destination: {'placeId': destination_place_id},
             travelMode: travel_mode
-          }, function(response, status) {
+          }
+
+          directionsService.route(request, function(response, status) {
             if (status === google.maps.DirectionsStatus.OK) {
               directionsDisplay.setDirections(response);
 
@@ -193,16 +198,33 @@
               var boxes = routeBoxer.box(path, distance);
 
 
-              console.log('2');
-              console.log(routeBoxer);
-              for (var i = 0; i < boxes.length; i++) {
-                var bounds = boxes[i];
-                // Perform search over this bounds
-    }
+              console.log(boxes); //boxes is not empty. it is good
+              drawBoxes(boxes);
+              // for (var i = 0; i < boxes.length; i++) {
+              //   var bounds = boxes[i];
+              //
+              //   // Perform search over this bounds
+              // }
             } else {
               window.alert('Directions request failed due to ' + status);
             }
           });
+        }
+
+        // Draw the array of boxes as polylines on the map
+        function drawBoxes(boxArray) {
+          boxpolys = new Array(boxArray.length);
+          console.log(boxpolys); //right here it is empty
+          for (var i = 0; i < boxArray.length; i++) {
+            boxpolys[i] = new google.maps.Rectangle({
+              bounds: boxArray[i],
+              fillOpacity: 0,
+              strokeOpacity: 1.0,
+              strokeColor: '#000000',
+              strokeWeight: 1,
+              map: map
+            });
+          }
         }
       }
 
