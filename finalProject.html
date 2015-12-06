@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Place Autocomplete</title>
+    <title>Johnny's Final Project</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
@@ -92,6 +92,7 @@
       $(document).ready(function(){
         initMap();
       });
+
       function initMap() {
         var origin_place_id = null;
         var destination_place_id = null;
@@ -225,6 +226,15 @@
               map: map
             });
           }
+        }
+
+        function clearBoxes() {
+          if (boxpolys != null) {
+            for (var i = 0; i < boxpolys.length; i++) {
+              boxpolys[i].setMap(null);
+            }
+          }
+          boxpolys = null;
         }
       }
 
