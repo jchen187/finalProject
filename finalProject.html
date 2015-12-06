@@ -181,6 +181,9 @@
 
         function route(origin_place_id, destination_place_id, travel_mode,
                        directionsService, directionsDisplay) {
+          //first remove all boxes
+          clearBoxes();
+
           if (!origin_place_id || !destination_place_id) {
             return;
           }
@@ -228,6 +231,7 @@
           }
         }
 
+        //clear boxes currently on the map
         function clearBoxes() {
           if (boxpolys != null) {
             for (var i = 0; i < boxpolys.length; i++) {
