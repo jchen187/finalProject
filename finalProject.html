@@ -242,14 +242,15 @@
         function findPlaces(boxes,searchIndex) {
            var request = {
                bounds: boxes[searchIndex],
-               keyword: 'mcdonald'
-               //keyword: 'best view'
+               keyword: 'mcdonalds'
+               //keyword: 'best view' or maybe "must"
                //types: ["gas_station"]
            };
            // alert(request.bounds);
            placeService.radarSearch(request, function (results, status) {
              if (status != google.maps.places.PlacesServiceStatus.OK) {
                alert("Request["+searchIndex+"] failed: "+status);
+               console.error(status);
                return;
              }
              // alert(results.length);
@@ -279,7 +280,12 @@
 
             var marker=new google.maps.Marker({
                 map:map,
-                icon: image,
+                //icon: image,
+                icon: {
+                  url: 'http://maps.gstatic.com/mapfiles/circle.png',
+                  anchor: new google.maps.Point(10, 10),
+                  scaledSize: new google.maps.Size(10, 17)
+                },
                 position:place.geometry.location
             });
             var request =  {
