@@ -281,7 +281,6 @@
               var path = response.routes[0].overview_path;
               var boxes = routeBoxer.box(path, distance);
 
-
               console.log(boxes); //boxes is not empty. it is good
               drawBoxes(boxes);
               findPlaces(boxes,0);
@@ -332,6 +331,7 @@
 
              //create a marker for each place/result that is found in the
              for (var i = 0, result; result = results[i]; i++) {
+               //check to see if within bounds
                var marker = createMarker(result);
              }
 
@@ -345,12 +345,14 @@
         function createMarker(place){
             var placeLoc=place.geometry.location;
             if (place.icon) {
+              console.log("hi")
               var image = new google.maps.MarkerImage(
                         place.icon, new google.maps.Size(71, 71),
                         new google.maps.Point(0, 0), new google.maps.Point(17, 34),
                         new google.maps.Size(25, 25));
              } else var image = null;
 
+             //maybe i can loop through the gmarker list and see if it is already there
             var marker=new google.maps.Marker({
                 map:map,
                 //icon: image,
@@ -383,8 +385,6 @@
 
             });
             gmarkers.push(marker);
-            //var side_bar_html = "<a href='javascript:google.maps.event.trigger(gmarkers["+parseInt(gmarkers.length-1)+"],\"click\");'>"+place.name+"</a><br>";
-            //document.getElementById('side_bar').innerHTML += side_bar_html;
         }
 
         function removeMarkers(){
