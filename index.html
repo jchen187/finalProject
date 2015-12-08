@@ -311,22 +311,16 @@
             var request = {
                 bounds: boxes[searchIndex],
                 keyword: 'mcdonalds'
-                //keyword: 'best view' or maybe "must"
                 //types: ["gas_station"]
             };
-            // alert(request.bounds);
             placeService.radarSearch(request, function (results, status) {
               if (status != google.maps.places.PlacesServiceStatus.OK) {
                 alert("Request["+searchIndex+"] failed: "+status);
                 console.error(status);
                 return;
               }
-              // alert(results.length);
-              //document.getElementById('side_bar').innerHTML += "bounds["+searchIndex+"] returns "+results.length+" results<br>"
-              console.log("bounds["+searchIndex+"] has " +results.length+ " results.")
-
+              console.log("bounds["+searchIndex+"] has " +results.length+ " results.");
               //to get the bounds, boxes[searchIndex]
-
               //create a marker for each place/result that is found in the
               for (var i = 0, result; result = results[i]; i++) {
                 //check to see if within bounds
