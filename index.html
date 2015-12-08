@@ -282,8 +282,9 @@
               var boxes = routeBoxer.box(path, distance);
 
               console.log(boxes); //boxes is not empty. it is good
-              drawBoxes(boxes);
-              findPlaces(boxes,0);
+              drawBoxesAndFindPlaces(boxArray);
+              //drawBoxes(boxes);
+              //findPlaces(boxes,0);
               // for (var i = 0; i < boxes.length; i++) {
               //   var bounds = boxes[i];
               //
@@ -293,6 +294,48 @@
               window.alert('Directions request failed due to ' + status);
             }
           });
+        }
+        function drawBoxesAndFindPlaces(boxArray){
+          boxpolys = new Array(boxArray.length);
+          console.log(boxpolys); // obviously there will be nothing right now
+          for (var i = 0; i < boxArray.length; i++) {
+            boxpolys[i] = new google.maps.Rectangle({
+              bounds: boxArray[i],
+              fillOpacity: 0,
+              strokeOpacity: 1.0,
+              strokeColor: '#000000',
+              strokeWeight: 1,
+              map: map
+            });
+
+            var request = {
+                bounds: boxes[searchIndex],
+                keyword: 'mcdonalds'
+                //keyword: 'best view' or maybe "must"
+                //types: ["gas_station"]
+            };
+            // alert(request.bounds);
+            placeService.radarSearch(request, function (results, status) {
+              if (status != google.maps.places.PlacesServiceStatus.OK) {
+                alert("Request["+searchIndex+"] failed: "+status);
+                console.error(status);
+                return;
+              }
+              // alert(results.length);
+              //document.getElementById('side_bar').innerHTML += "bounds["+searchIndex+"] returns "+results.length+" results<br>"
+              console.log("bounds["+searchIndex+"] has " +results.length+ " results.")
+
+              //to get the bounds, boxes[searchIndex]
+
+              //create a marker for each place/result that is found in the
+              for (var i = 0, result; result = results[i]; i++) {
+                //check to see if within bounds
+                if(google.maps.geometry.poly.containsLocation(result, boxploys[i]) == true) {
+                  var marker = createMarker(result);
+                }
+              }
+
+          }
         }
 
         // Draw the array of boxes as polylines on the map
@@ -329,10 +372,14 @@
              //document.getElementById('side_bar').innerHTML += "bounds["+searchIndex+"] returns "+results.length+" results<br>"
              console.log("bounds["+searchIndex+"] has " +results.length+ " results.")
 
+             //to get the bounds, boxes[searchIndex]
+
              //create a marker for each place/result that is found in the
              for (var i = 0, result; result = results[i]; i++) {
                //check to see if within bounds
-               var marker = createMarker(result);
+               if(google.maps.geometry.poly.containsLocation(result, draw) == true) {
+                 var marker = createMarker(result);
+               }
              }
 
              //move on to the next box
@@ -345,12 +392,12 @@
         function createMarker(place){
             var placeLoc=place.geometry.location;
             if (place.icon) {
-              console.log("hi");
-              var image = new google.maps.MarkerImage(
-                        place.icon, new google.maps.Size(71, 71),
-                        new google.maps.Point(0, 0), new google.maps.Point(17, 34),
-                        new google.maps.Size(25, 25));
-             } else var image = null;
+            //   console.log("hi");
+            //   var image = new google.maps.MarkerImage(
+            //             place.icon, new google.maps.Size(71, 71),
+            //             new google.maps.Point(0, 0), new google.maps.Point(17, 34),
+            //             new google.maps.Size(25, 25));
+            //  } else var image = null;
 
              //maybe i can loop through the gmarker list and see if it is already there
             var marker=new google.maps.Marker({
