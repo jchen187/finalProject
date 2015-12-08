@@ -165,7 +165,6 @@
       function initMap(coords) {
         var origin_place_id = null;
         var destination_place_id = null;
-        var travel_mode = google.maps.TravelMode.WALKING;
 
         var loc = new google.maps.LatLng(coords.latitude, coords.longitude);
 
@@ -178,8 +177,11 @@
           zoom: 13,
           zoomControlOptions: {
             style:google.maps.ZoomControlStyle.LARGE
-          }
+          },
+          travel_mode: google.maps.TravelMode.WALKING
         });
+
+
         var directionsService = new google.maps.DirectionsService;
         var directionsDisplay = new google.maps.DirectionsRenderer;
         directionsDisplay.setMap(map);
