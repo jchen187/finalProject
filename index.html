@@ -14,6 +14,7 @@
       }
       #map {
         height: 100%;
+        width: 70%;
       }
       .controls {
         margin-top: 10px;
@@ -85,7 +86,7 @@
     <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/routeboxer/src/RouteBoxer.js"></script>
     <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&signed_in=true&libraries=places&callback=initMap"
       async defer></script> -->
-    <script>
+    <script type="text/javascript">
       var map;
       var boxpolys = null; //stores all the boxes that are on the map
 
@@ -93,7 +94,69 @@
       var gmarkers = [];
       var infowindow = new google.maps.InfoWindow();
 
+      var coords;
       $(document).ready(function(){
+        try {
+          if (navigator.geolocation) {
+            /*
+            getCurrentPosition takes up to three arguments:
+            a successCallback
+            a errorCallback (optional)
+            PositionOptions (optional)
+
+            PositionOptions is an object with three properties:
+            enableHighAccuracy (boolean - default is false
+            if true, response times may be slowed
+            and battery consumption (on mobiles) may
+            increase)
+            timeout (in ms - default is infinity)
+            maximumAge (in ms - default is 0
+            if > 0, the API tries to fetch a cached position)
+            */
+            navigator.geolocation.getCurrentPosition (function(position){
+              coords = position.coords;
+              console.log(coords);
+              console.log('Your geographical coordinates are ' + coords.latitude + ', ' + coords.longitude + '.');
+			        console.log('These coordinates are accurate to within ' + coords.accuracy + ' metres.');
+
+              /*
+              the position object contains a 'coords' and 'timestamp' object;
+              coords contains:
+              latitude
+              longitude
+              accuracy (in metres with 95% confidence)
+              altitude (in metres)
+              altitudeAccuracy (in metres)
+              heading (degrees clockwise relative to true north)
+              speed (in m/s - more relevant for the watchPosition function
+              which is not described here)
+              */
+            },
+            function(error){
+              if (error.code == 1) {
+                console.log('Please enable location tracking in your web browser');
+              } else if (error.code == 2) {
+                console.log('Unable to determine location - please ensure location tracking is enabled in your browser');
+              }
+              /*
+              The error object has a 'code' and 'message' property
+              error.code can be:
+              1 (permission denied),
+              2 (position unavailable),
+              3 (timeout)
+              */
+            },
+  		        {enableHighAccuracy: true});
+          }
+          else {
+            /* browser doesn't support geolocation */
+            console.log('Your browser does not support location tracking');
+          }
+        }
+        catch (e) {
+          /* error handling here */
+          alert('An error has occured');
+        }
         initMap();
       });
 
@@ -101,10 +164,15 @@
         var origin_place_id = null;
         var destination_place_id = null;
         var travel_mode = google.maps.TravelMode.WALKING;
+
+        var loc = new google.maps.LatLng(coords.latitude, coords.longitude);
+
         map = new google.maps.Map(document.getElementById('map'), {
           // when map type control is false, there is no option for mapsatellite
           mapTypeControl: false,
-          center: {lat: 40.7903, lng: -73.9597},
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          //center: {lat: 40.7903, lng: -73.9597},
+          center: loc,
           zoom: 13,
           zoomControlOptions: {
             style:google.maps.ZoomControlStyle.LARGE
@@ -287,7 +355,8 @@
                   anchor: new google.maps.Point(10, 10),
                   scaledSize: new google.maps.Size(10, 17)
                 },
-                position:place.geometry.location
+                position:place.geometry.location,
+                animation: google.maps.Animation.DROP
             });
             var request =  {
                   reference: place.reference
