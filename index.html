@@ -94,7 +94,7 @@
       var gmarkers = [];
       var infowindow = new google.maps.InfoWindow();
 
-      var coords;
+      // var coords;
       $(document).ready(function(){
         try {
           if (navigator.geolocation) {
@@ -114,7 +114,7 @@
             if > 0, the API tries to fetch a cached position)
             */
             navigator.geolocation.getCurrentPosition (function(position){
-              coords = position.coords;
+              var coords = position.coords;
               console.log(coords);
               console.log('Your geographical coordinates are ' + coords.latitude + ', ' + coords.longitude + '.');
 			        console.log('These coordinates are accurate to within ' + coords.accuracy + ' metres.');
@@ -131,6 +131,8 @@
               speed (in m/s - more relevant for the watchPosition function
               which is not described here)
               */
+              initMap(coords);
+
             },
             function(error){
               if (error.code == 1) {
@@ -157,10 +159,10 @@
           /* error handling here */
           alert('An error has occured');
         }
-        initMap();
+        // initMap();
       });
 
-      function initMap() {
+      function initMap(coords) {
         var origin_place_id = null;
         var destination_place_id = null;
         var travel_mode = google.maps.TravelMode.WALKING;
