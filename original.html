@@ -14,7 +14,6 @@
       }
       #map {
         height: 100%;
-        width: 70%;
       }
       .controls {
         margin-top: 10px;
@@ -26,7 +25,6 @@
         outline: none;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
       }
-
       #origin-input,
       #destination-input {
         background-color: #fff;
@@ -38,26 +36,21 @@
         text-overflow: ellipsis;
         width: 200px;
       }
-
       #origin-input:focus,
       #destination-input:focus {
         border-color: #4d90fe;
       }
-
       #mode-selector {
         color: #fff;
         background-color: #4d90fe;
         margin-left: 12px;
         padding: 5px 11px 0px 11px;
       }
-
       #mode-selector label {
         font-family: Roboto;
         font-size: 13px;
         font-weight: 300;
       }
-
-
     </style>
   </head>
   <body>
@@ -86,122 +79,43 @@
     <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/routeboxer/src/RouteBoxer.js"></script>
     <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&signed_in=true&libraries=places&callback=initMap"
       async defer></script> -->
-    <script type="text/javascript">
+    <script>
       var map;
       var boxpolys = null; //stores all the boxes that are on the map
-
       var placeService;
       var gmarkers = [];
       var infowindow = new google.maps.InfoWindow();
-
-      // var coords;
       $(document).ready(function(){
-        try {
-          if (navigator.geolocation) {
-            /*
-            getCurrentPosition takes up to three arguments:
-            a successCallback
-            a errorCallback (optional)
-            PositionOptions (optional)
-
-            PositionOptions is an object with three properties:
-            enableHighAccuracy (boolean - default is false
-            if true, response times may be slowed
-            and battery consumption (on mobiles) may
-            increase)
-            timeout (in ms - default is infinity)
-            maximumAge (in ms - default is 0
-            if > 0, the API tries to fetch a cached position)
-            */
-            navigator.geolocation.getCurrentPosition (function(position){
-              var coords = position.coords;
-              console.log(coords);
-              console.log('Your geographical coordinates are ' + coords.latitude + ', ' + coords.longitude + '.');
-			        console.log('These coordinates are accurate to within ' + coords.accuracy + ' metres.');
-
-              /*
-              the position object contains a 'coords' and 'timestamp' object;
-              coords contains:
-              latitude
-              longitude
-              accuracy (in metres with 95% confidence)
-              altitude (in metres)
-              altitudeAccuracy (in metres)
-              heading (degrees clockwise relative to true north)
-              speed (in m/s - more relevant for the watchPosition function
-              which is not described here)
-              */
-              initMap(coords);
-
-            },
-            function(error){
-              if (error.code == 1) {
-                console.log('Please enable location tracking in your web browser');
-              } else if (error.code == 2) {
-                console.log('Unable to determine location - please ensure location tracking is enabled in your browser');
-              }
-              /*
-              The error object has a 'code' and 'message' property
-              error.code can be:
-              1 (permission denied),
-              2 (position unavailable),
-              3 (timeout)
-              */
-            },
-  		        {enableHighAccuracy: true});
-          }
-          else {
-            /* browser doesn't support geolocation */
-            console.log('Your browser does not support location tracking');
-          }
-        }
-        catch (e) {
-          /* error handling here */
-          alert('An error has occured');
-        }
-        // initMap();
+        initMap();
       });
-
-      function initMap(coords) {
+      function initMap() {
         var origin_place_id = null;
         var destination_place_id = null;
-
-        var loc = new google.maps.LatLng(coords.latitude, coords.longitude);
-
+        var travel_mode = google.maps.TravelMode.WALKING;
         map = new google.maps.Map(document.getElementById('map'), {
           // when map type control is false, there is no option for mapsatellite
           mapTypeControl: false,
-          mapTypeId: google.maps.MapTypeId.ROADMAP,
-          //center: {lat: 40.7903, lng: -73.9597},
-          center: loc,
+          center: {lat: 40.7903, lng: -73.9597},
           zoom: 13,
           zoomControlOptions: {
             style:google.maps.ZoomControlStyle.LARGE
           }
         });
-
-        var travel_mode = google.maps.TravelMode.WALKING;
-
         var directionsService = new google.maps.DirectionsService;
         var directionsDisplay = new google.maps.DirectionsRenderer;
         directionsDisplay.setMap(map);
-
         placeService = new google.maps.places.PlacesService(map);
-
         var origin_input = document.getElementById('origin-input');
         var destination_input = document.getElementById('destination-input');
         var modes = document.getElementById('mode-selector');
-
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(origin_input);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(destination_input);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(modes);
-
         var origin_autocomplete = new google.maps.places.Autocomplete(origin_input);
         origin_autocomplete.bindTo('bounds', map);
         var destination_autocomplete =
             new google.maps.places.Autocomplete(destination_input);
         destination_autocomplete.bindTo('bounds', map);
-
         // Sets a listener on a radio button to change the filter type on Places
         // Autocomplete.
         function setupClickListener(id, mode) {
@@ -213,7 +127,6 @@
         setupClickListener('changemode-walking', google.maps.TravelMode.WALKING);
         setupClickListener('changemode-transit', google.maps.TravelMode.TRANSIT);
         setupClickListener('changemode-driving', google.maps.TravelMode.DRIVING);
-
         function expandViewportToFitPlace(map, place) {
           if (place.geometry.viewport) {
             map.fitBounds(place.geometry.viewport);
@@ -222,7 +135,6 @@
             map.setZoom(17);
           }
         }
-
         origin_autocomplete.addListener('place_changed', function() {
           var place = origin_autocomplete.getPlace();
           if (!place.geometry) {
@@ -230,14 +142,12 @@
             return;
           }
           expandViewportToFitPlace(map, place);
-
           // If the place has a geometry, store its place ID and route if we have
           // the other place ID
           origin_place_id = place.place_id;
           route(origin_place_id, destination_place_id, travel_mode,
                 directionsService, directionsDisplay);
         });
-
         destination_autocomplete.addListener('place_changed', function() {
           var place = destination_autocomplete.getPlace();
           if (!place.geometry) {
@@ -245,24 +155,19 @@
             return;
           }
           expandViewportToFitPlace(map, place);
-
           // If the place has a geometry, store its place ID and route if we have
           // the other place ID
           destination_place_id = place.place_id;
           route(origin_place_id, destination_place_id, travel_mode,
                 directionsService, directionsDisplay);
         });
-
         var routeBoxer = new RouteBoxer();
         var distance = 0.2; // km
         console.log(routeBoxer);
-
         function route(origin_place_id, destination_place_id, travel_mode,
                        directionsService, directionsDisplay) {
           //first remove all boxes
-          // clearBoxes();
-          // removeMarkers();
-
+          clearBoxes();
           if (!origin_place_id || !destination_place_id) {
             return;
           }
@@ -271,18 +176,14 @@
             destination: {'placeId': destination_place_id},
             travelMode: travel_mode
           }
-
           //make the direction request
           directionsService.route(request, function(response, status) {
             if (status === google.maps.DirectionsStatus.OK) {
               directionsDisplay.setDirections(response);
-
               // Box the overview path of the first route
               var path = response.routes[0].overview_path;
               var boxes = routeBoxer.box(path, distance);
-
               console.log(boxes); //boxes is not empty. it is good
-              // drawBoxesAndFindPlaces(boxArray);
               drawBoxes(boxes);
               findPlaces(boxes,0);
               // for (var i = 0; i < boxes.length; i++) {
@@ -295,120 +196,59 @@
             }
           });
         }
-
-        // function drawBoxesAndFindPlaces(boxArray){
-        //   boxpolys = new Array(boxArray.length);
-        //   console.log(boxpolys); // obviously there will be nothing right now
-        //   for (var i = 0; i < boxArray.length; i++) {
-        //     boxpolys[i] = new google.maps.Rectangle({
-        //       bounds: boxArray[i],
-        //       fillOpacity: 0,
-        //       strokeOpacity: 1.0,
-        //       strokeColor: '#000000',
-        //       strokeWeight: 1,
-        //       map: map
-        //     });
-        //
-        //     var request = {
-        //         bounds: boxes[searchIndex],
-        //         keyword: 'mcdonalds'
-        //         //types: ["gas_station"]
-        //     };
-        //
-        //     placeService.radarSearch(request, function (results, status) {
-        //       if (status != google.maps.places.PlacesServiceStatus.OK) {
-        //         alert("Request["+searchIndex+"] failed: "+status);
-        //         console.error(status);
-        //         return;
-        //       }
-        //       console.log("bounds["+searchIndex+"] has " +results.length+ " results.");
-        //       //to get the bounds, boxes[searchIndex]
-        //       //create a marker for each place/result that is found in the
-        //       for (var i = 0, result; result = results[i]; i++) {
-        //         //check to see if within bounds
-        //         if(google.maps.geometry.poly.containsLocation(result, boxploys[i]) == true) {
-        //           var marker = createMarker(result);
-        //         }
-        //       }
-        //     });
-        //   }
-        // }
-
         // Draw the array of boxes as polylines on the map
         function drawBoxes(boxArray) {
           boxpolys = new Array(boxArray.length);
           console.log(boxpolys); // obviously there will be nothing right now
           for (var i = 0; i < boxArray.length; i++) {
-            (function(i){
-              boxpolys = new google.maps.Rectangle({
-                bounds: boxArray[i],
-                fillOpacity: 0,
-                strokeOpacity: 1.0,
-                strokeColor: '#000000',
-                strokeWeight: 1,
-                map: map
-              });
-              findPlaces(boxArray, i, boxpolys)
-            })(i);
-
+            boxpolys[i] = new google.maps.Rectangle({
+              bounds: boxArray[i],
+              fillOpacity: 0,
+              strokeOpacity: 1.0,
+              strokeColor: '#000000',
+              strokeWeight: 1,
+              map: map
+            });
           }
         }
-
-        function findPlaces(boxes,searchIndex, boxpolys) {
+        function findPlaces(boxes,searchIndex) {
            var request = {
                bounds: boxes[searchIndex],
-               keyword: 'mcdonalds'
+               keyword: 'mcdonald'
+               //keyword: 'best view'
                //types: ["gas_station"]
            };
+           // alert(request.bounds);
            placeService.radarSearch(request, function (results, status) {
              if (status != google.maps.places.PlacesServiceStatus.OK) {
                alert("Request["+searchIndex+"] failed: "+status);
-               console.error(status);
                return;
              }
              // alert(results.length);
-             console.log("bounds["+searchIndex+"] has " +results.length+ " results.");
-
-             //to get the bounds, boxes[searchIndex]
-
+             //document.getElementById('side_bar').innerHTML += "bounds["+searchIndex+"] returns "+results.length+" results<br>"
+             console.log("bounds["+searchIndex+"] has " +results.length+ " results.")
              //create a marker for each place/result that is found in the
              for (var i = 0, result; result = results[i]; i++) {
-               //check to see if within bounds
-               //draw is supposed to be a google.maps.Polygon
-               console.log(boxpolys);
-              //  if(google.maps.geometry.poly.containsLocation(result, boxpolys) == true) {
-                 var marker = createMarker(result);
-              //  }
+               var marker = createMarker(result);
              }
-
              //move on to the next box
-            //  searchIndex++;
-            //  if (searchIndex < boxes.length)
-            //    findPlaces(boxes,searchIndex);
+             searchIndex++;
+             if (searchIndex < boxes.length)
+               findPlaces(boxes,searchIndex);
            });
         }
-
         function createMarker(place){
             var placeLoc=place.geometry.location;
             if (place.icon) {
-            //   console.log("hi");
-            //   var image = new google.maps.MarkerImage(
-            //             place.icon, new google.maps.Size(71, 71),
-            //             new google.maps.Point(0, 0), new google.maps.Point(17, 34),
-            //             new google.maps.Size(25, 25));
-            //  } else var image = null;
-
-             //maybe i can loop through the gmarker list and see if it is already there
+              var image = new google.maps.MarkerImage(
+                        place.icon, new google.maps.Size(71, 71),
+                        new google.maps.Point(0, 0), new google.maps.Point(17, 34),
+                        new google.maps.Size(25, 25));
+             } else var image = null;
             var marker=new google.maps.Marker({
                 map:map,
-                //icon: image,
-                icon: {
-                  url: 'http://maps.gstatic.com/mapfiles/circle.png',
-                  anchor: new google.maps.Point(10, 10),
-                  scaledSize: new google.maps.Size(10, 17)
-                },
-                position:place.geometry.location,
-                animation: google.maps.Animation.DROP
+                icon: image,
+                position:place.geometry.location
             });
             var request =  {
                   reference: place.reference
@@ -428,17 +268,11 @@
                     infowindow.open(map,marker);
                   }
                 });
-
             });
             gmarkers.push(marker);
+            //var side_bar_html = "<a href='javascript:google.maps.event.trigger(gmarkers["+parseInt(gmarkers.length-1)+"],\"click\");'>"+place.name+"</a><br>";
+            //document.getElementById('side_bar').innerHTML += side_bar_html;
         }
-
-        function removeMarkers(){
-            for(i=0; i<gmarkers.length; i++){
-                gmarkers[i].setMap(null);
-            }
-        }
-
         //clear boxes currently on the map
         function clearBoxes() {
           if (boxpolys != null) {
@@ -449,8 +283,6 @@
           boxpolys = null;
         }
       }
-    }
-
       </script>
 
   </body>
