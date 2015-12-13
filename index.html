@@ -95,8 +95,15 @@
       var boxpolys = null; //stores all the boxes that are on the map
 
       var placeService;
-      var gmarkers = [];
+      var gmarkers = []; //for the old one
       var infowindow = new google.maps.InfoWindow();
+
+      var listOfMarkers = []; //markers showing for trending places
+      var centersOfBoxes = []; //markers at centers of the boxes
+
+      var routeBoxer = new RouteBoxer();
+      var distance = 0.2; //0.2 is the default value
+      console.log(routeBoxer);
 
       // var coords;
       $(document).ready(function(){
@@ -263,9 +270,7 @@
                 directionsService, directionsDisplay);
         });
 
-        var routeBoxer = new RouteBoxer();
-        var distance = 0.2; // km
-        console.log(routeBoxer);
+
 
         function route(origin_place_id, destination_place_id, travel_mode,
                        directionsService, directionsDisplay) {
@@ -336,6 +341,7 @@
                   position:centerOfBox,
                   animation: google.maps.Animation.DROP
               });
+              centersOfBoxes.push(marker);
 
               findTrendingPlacesAround(centerOfBox,boxArray[i]);
 
@@ -346,6 +352,7 @@
           }
         }
 
+        //THIS IS THE OLD ONE
         //boxes contain the bounds and boxpoly contains the rectangles
         function findPlaces(boxes,searchIndex, boxpolys) {
           //to get the bounds, boxes[searchIndex]
@@ -401,7 +408,7 @@
             return centerOfBox;
         }
 
-        var listOfMarkers = [];
+
         function findTrendingPlacesAround(place,boxBoundary){
           // var site = "https://cooper-union-foursquare-proxy.herokuapp.com/trending?ll=40.7293461,-73.9905962";
           var site = "https://cooper-union-foursquare-proxy.herokuapp.com/trending?ll="+place.lat()+","+place.lng();
@@ -476,15 +483,25 @@
 
         //REMOVE PREVIOUS MARKERS
         function removeMarkers(){
+            //THIS IS FOR THE OLD ONE
             for(i=0; i<gmarkers.length; i++){
                 gmarkers[i].setMap(null);
             }
+            //THIS IS FOR THE NEW ONE
+            for(i=0; i<listOfMarkers.length; i++){
+                listOfMarkers[i].setMap(null);
+            }
+            for(i=0; i<centersOfBoxes.length; i++){
+                centersOfBoxes[i].setMap(null);
+            }
         }
+
         //clear boxes currently on the map
         function clearBoxes() {
           if (boxpolys != null) {
             for (var i = 0; i < boxpolys.length; i++) {
               boxpolys[i].setMap(null);
+              // centersOfBoxes[i].setMap(null);
             }
           }
           boxpolys = null;
