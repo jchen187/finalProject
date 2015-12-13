@@ -314,6 +314,22 @@
                 strokeWeight: 1,
                 map: map
               });
+
+              var centerOfBox = findCenterOf(boxArray[i]);
+              var marker=new google.maps.Marker({
+                  map:map,
+                  icon: {
+                    url: 'http://maps.gstatic.com/mapfiles/circle.png',
+                    anchor: new google.maps.Point(10, 10),
+                    scaledSize: new google.maps.Size(10, 17)
+                  },
+                  position:centerOfBox,
+                  animation: google.maps.Animation.DROP
+              });
+              // console.log("BOUNDS X AND Y");
+              // console.log(boxArray[i].j.O);
+              // console.log(boxArray[i].j.j);
+
               //find the places in the rectangle
               //findPlaces(boxArray, i, boxpolys);
             })(i);
@@ -367,7 +383,16 @@
            });
         }
 
-var listOfMarkers = [];
+        //this is based on how the info is being returned
+        function findCenterOf(boxBoundary) {
+            var latCenter = (boxBoundary.O.O + boxBoundary.O.j)/2;
+            var lngCenter = (boxBoundary.j.O + boxBoundary.j.j)/2;
+            // var centerOfBox = [latCenter,lngCenter];
+            var centerOfBox = new google.maps.LatLng(latCenter,lngCenter);
+            return centerOfBox;
+        }
+
+        var listOfMarkers = [];
         function findTrendingPlacesAround(l1,l2){
           var site = "https://cooper-union-foursquare-proxy.herokuapp.com/trending?ll=40.7293461,-73.9905962";
           //var site = "https://cooper-union-foursquare-proxy.herokuapp.com/trending?ll="+l1+","+l2;
