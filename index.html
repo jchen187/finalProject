@@ -17,7 +17,6 @@
         width: 100%;
       }
       .controls {
-        margin-top: 10px;
         border: 1px solid transparent;
         border-radius: 2px 0 0 2px;
         box-sizing: border-box;
@@ -29,6 +28,7 @@
 
       #origin-input,
       #destination-input {
+        margin-top: 10px;
         background-color: #fff;
         font-family: Roboto;
         font-size: 15px;
@@ -48,6 +48,7 @@
         position:absolute;
 
         bottom:0;
+        margin-left: 12px;
         margin-bottom: 12px;
         color: #fff;
         background-color: #4d90fe;
@@ -211,6 +212,12 @@
           var radioButton = document.getElementById(id);
           radioButton.addEventListener('click', function() {
             travel_mode = mode;
+
+            //if you have a place for both change.
+            if (origin_place_id != null && destination_place_id != null){
+              route(origin_place_id, destination_place_id, travel_mode,
+                    directionsService, directionsDisplay);
+            }
           });
         }
         setupClickListener('changemode-walking', google.maps.TravelMode.WALKING);
