@@ -315,11 +315,12 @@
                 map: map
               });
               //find the places in the rectangle
-              findPlaces(boxArray, i, boxpolys);
+              //findPlaces(boxArray, i, boxpolys);
             })(i);
 
           }
-          console.log(boxpolys);
+          // console.log(boxpolys);
+          findTrendingPlacesAround(0,0);
         }
 
         //boxes contain the bounds and boxpoly contains the rectangles
@@ -354,16 +355,48 @@
                //  for rectangle
                // getBounds().contains(google.maps.LatLng(POINT_LAT, POINT_LNG))
                var result = results[i];
-               var latitude = result.geometry.location.lat();
-               var longitude = result.geometry.location.lng();
-               console.log(latitude + "," + longitude);
-               console.log(boxes[searchIndex]);
+              //  var latitude = result.geometry.location.lat();
+              //  var longitude = result.geometry.location.lng();
+              //  console.log(latitude + "," + longitude);
+              //  console.log(boxes[searchIndex]);
               //  if (boxes[searchIndex].contains(google.maps.LatLng(result.latitude, result.longitude))){
-              if (boxpolys[searchIndex].getBounds().contains( google.maps.LatLng(latitude,longitude) )){
+              // if (boxpolys[searchIndex].getBounds().contains( google.maps.LatLng(latitude,longitude) )){
                  var marker = createMarker(result);
-               }
+              //  }
              }
            });
+        }
+
+var listOfMarkers = [];
+        function findTrendingPlacesAround(l1,l2){
+          var site = "https://cooper-union-foursquare-proxy.herokuapp.com/trending?ll=40.7293461,-73.9905962";
+          //var site = "https://cooper-union-foursquare-proxy.herokuapp.com/trending?ll="+l1+","+l2;
+          $.getJSON(site, function(response){
+            var listOfPlaces = response.response.venues;
+            console.log(listOfPlaces);
+            //loop through the responses and find the ones with location
+              for (var i = 0; i < listOfPlaces.length; i++){
+                //can create a function out side and call it
+                //encapsulated anonymous function - put in a function because the part with the marker is async and takes longer, so you will be done with the for loop before you reach
+                (function(i){
+                  if(listOfPlaces[i].location != null){
+                    var lat = listOfPlaces[i].location.lat;
+                    var lng = listOfPlaces[i].location.lng;
+                    var location = new google.maps.LatLng(lat,lng);
+                    var marker = new google.maps.Marker({
+                      title: listOfPlaces[i].name,
+                      position: location,
+                      map: map,
+                      //'link': response[i].link,
+                      //'html': '<img src='+response[i].images.thumbnail.url+' />',
+                      icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+                    });
+                    listOfMarkers.push(marker);
+                  }
+                })(i);
+              }
+              // console.log(listOfMarkers);
+          });
         }
 
         function createMarker(place){
