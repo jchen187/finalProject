@@ -280,10 +280,12 @@
               // Box the overview path of the first route
               var path = response.routes[0].overview_path;
               var boxes = routeBoxer.box(path, distance);
+              //boxes contain all the rectangles
 
+              //console.log("Boxes over here");
               console.log(boxes); //boxes is not empty. it is good
               drawBoxes(boxes);
-              findPlaces(boxes,0);
+              //findPlaces(boxes,0);
               // for (var i = 0; i < boxes.length; i++) {
               //   var bounds = boxes[i];
               //
@@ -297,11 +299,14 @@
 
         // Draw the array of boxes as polylines on the map
         function drawBoxes(boxArray) {
+          //boxArray has all the rectangles
+
+          //boxpoly stores all the boxes on the map
           boxpolys = new Array(boxArray.length);
-          console.log(boxpolys); // obviously there will be nothing right now
+
           for (var i = 0; i < boxArray.length; i++) {
             (function(i){
-              boxpolys = new google.maps.Rectangle({
+              boxpolys[i] = new google.maps.Rectangle({
                 bounds: boxArray[i],
                 fillOpacity: 0,
                 strokeOpacity: 1.0,
@@ -310,13 +315,17 @@
                 map: map
               });
               //find the places in the rectangle
-              findPlaces(boxArray, i, boxpolys)
+              findPlaces(boxArray, i, boxpolys);
             })(i);
 
           }
+          console.log(boxpolys);
         }
 
+        //boxes contain the bounds and boxpoly contains the rectangles
         function findPlaces(boxes,searchIndex, boxpolys) {
+          //to get the bounds, boxes[searchIndex]
+
            var request = {
                bounds: boxes[searchIndex],
                keyword: 'mcdonalds'
@@ -324,31 +333,36 @@
            };
            placeService.radarSearch(request, function (results, status) {
              if (status != google.maps.places.PlacesServiceStatus.OK) {
-               alert("Request["+searchIndex+"] failed: "+status);
+              //  alert("Request["+searchIndex+"] failed: "+status);
                console.error(status);
                return;
              }
              // alert(results.length);
-             console.log("bounds["+searchIndex+"] has " +results.length+ " results.");
+            //  console.log("bounds["+searchIndex+"] has " +results.length+ " results.");
+            //  console.log("boxesBound: " );
+            //  console.log(boxes[searchIndex] );
+            //  console.log("boxpolyBounds: ");
+            //  console.log(boxpolys[searchIndex] );
 
-             //to get the bounds, boxes[searchIndex]
-
+            console.log(results);
              //create a marker for each place/result that is found in the
-             for (var i = 0, result; result = results[i]; i++) {
+            //  for (var i = 0, result; result = results[i]; i++) {
+            for (var i = 0; i < results.length; i++) {
                //check to see if within bounds
                //draw is supposed to be a google.maps.Polygon
-               console.log(boxpolys);
-              //  if(google.maps.geometry.poly.containsLocation(result, boxpolys) == true) {
-              //  for rectangle
-              // getBounds().contains(google.maps.LatLng(POINT_LAT, POINT_LNG))
+               //  if(google.maps.geometry.poly.containsLocation(result, boxpolys) == true) {
+               //  for rectangle
+               // getBounds().contains(google.maps.LatLng(POINT_LAT, POINT_LNG))
+               var result = results[i];
+               var latitude = result.geometry.location.lat();
+               var longitude = result.geometry.location.lng();
+               console.log(latitude + "," + longitude);
+               console.log(boxes[searchIndex]);
+              //  if (boxes[searchIndex].contains(google.maps.LatLng(result.latitude, result.longitude))){
+              if (boxpolys[searchIndex].getBounds().contains( google.maps.LatLng(latitude,longitude) )){
                  var marker = createMarker(result);
-              //  }
+               }
              }
-
-             //move on to the next box
-            //  searchIndex++;
-            //  if (searchIndex < boxes.length)
-            //    findPlaces(boxes,searchIndex);
            });
         }
 

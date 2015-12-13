@@ -168,6 +168,7 @@
                        directionsService, directionsDisplay) {
           //first remove all boxes
           clearBoxes();
+          removeMarkers();
           if (!origin_place_id || !destination_place_id) {
             return;
           }
@@ -281,6 +282,12 @@
             }
           }
           boxpolys = null;
+        }
+
+        function removeMarkers(){
+            for(i=0; i<gmarkers.length; i++){
+                gmarkers[i].setMap(null);
+            }
         }
       }
       </script>
