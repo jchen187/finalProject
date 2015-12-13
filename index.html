@@ -327,18 +327,13 @@
                   animation: google.maps.Animation.DROP
               });
 
-              findTrendingPlacesAround(centerOfBox);
-              // console.log("BOUNDS X AND Y");
-              // console.log(boxArray[i].j.O);
-              // console.log(boxArray[i].j.j);
+              findTrendingPlacesAround(centerOfBox,boxArray[i]);
 
               //find the places in the rectangle
               //findPlaces(boxArray, i, boxpolys);
             })(i);
 
           }
-          // console.log(boxpolys);
-
         }
 
         //boxes contain the bounds and boxpoly contains the rectangles
@@ -397,7 +392,7 @@
         }
 
         var listOfMarkers = [];
-        function findTrendingPlacesAround(place){
+        function findTrendingPlacesAround(place,boxBoundary){
           // var site = "https://cooper-union-foursquare-proxy.herokuapp.com/trending?ll=40.7293461,-73.9905962";
           var site = "https://cooper-union-foursquare-proxy.herokuapp.com/trending?ll="+place.lat()+","+place.lng();
           $.getJSON(site, function(response){
@@ -411,16 +406,20 @@
                   if(listOfPlaces[i].location != null){
                     var lat = listOfPlaces[i].location.lat;
                     var lng = listOfPlaces[i].location.lng;
-                    var location = new google.maps.LatLng(lat,lng);
-                    var marker = new google.maps.Marker({
-                      title: listOfPlaces[i].name,
-                      position: location,
-                      map: map,
-                      //'link': response[i].link,
-                      //'html': '<img src='+response[i].images.thumbnail.url+' />',
-                      icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
-                    });
-                    listOfMarkers.push(marker);
+
+                    //
+                    if (lat > boxBoundary.O.O && lat < boxBoundary.O.j && lng < boxBoundary.j.O && lng > boxBoundary.j.j){
+                      var location = new google.maps.LatLng(lat,lng);
+                      var marker = new google.maps.Marker({
+                        title: listOfPlaces[i].name,
+                        position: location,
+                        map: map,
+                        //'link': response[i].link,
+                        //'html': '<img src='+response[i].images.thumbnail.url+' />',
+                        icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+                      });
+                      listOfMarkers.push(marker);
+                    }
                   }
                 })(i);
               }
