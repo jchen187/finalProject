@@ -225,6 +225,13 @@
               route(origin_place_id, destination_place_id, travel_mode,
                     directionsService, directionsDisplay);
             }
+
+            if (mode === google.maps.TravelMode.WALKING){
+              distance = 0.2;
+            }
+            else if (mode === google.maps.TravelMode.DRIVING){
+              distance = 0.5;
+            }
           });
         }
         setupClickListener('changemode-walking', google.maps.TravelMode.WALKING);
