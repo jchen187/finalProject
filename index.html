@@ -74,8 +74,8 @@
       <input type="radio" name="type" id="changemode-walking" checked="checked">
       <label for="changemode-walking">Walking</label>
 
-      <input type="radio" name="type" id="changemode-transit">
-      <label for="changemode-transit">Transit</label>
+      <!-- <input type="radio" name="type" id="changemode-transit">
+      <label for="changemode-transit">Transit</label> -->
 
       <input type="radio" name="type" id="changemode-driving">
       <label for="changemode-driving">Driving</label>
@@ -214,7 +214,7 @@
           });
         }
         setupClickListener('changemode-walking', google.maps.TravelMode.WALKING);
-        setupClickListener('changemode-transit', google.maps.TravelMode.TRANSIT);
+        // setupClickListener('changemode-transit', google.maps.TravelMode.TRANSIT);
         setupClickListener('changemode-driving', google.maps.TravelMode.DRIVING);
 
         function expandViewportToFitPlace(map, place) {
