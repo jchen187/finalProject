@@ -14,7 +14,7 @@
       }
       #map {
         height: 100%;
-        width: 70%;
+        width: 100%;
       }
       .controls {
         margin-top: 10px;
@@ -45,9 +45,12 @@
       }
 
       #mode-selector {
+        position:absolute;
+
+        bottom:0;
+        margin-bottom: 12px;
         color: #fff;
         background-color: #4d90fe;
-        margin-left: 12px;
         padding: 5px 11px 0px 11px;
       }
 
@@ -194,7 +197,7 @@
 
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(origin_input);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(destination_input);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(modes);
+        map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(modes);
 
         var origin_autocomplete = new google.maps.places.Autocomplete(origin_input);
         origin_autocomplete.bindTo('bounds', map);
