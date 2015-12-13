@@ -326,6 +326,8 @@
                   position:centerOfBox,
                   animation: google.maps.Animation.DROP
               });
+
+              findTrendingPlacesAround(centerOfBox);
               // console.log("BOUNDS X AND Y");
               // console.log(boxArray[i].j.O);
               // console.log(boxArray[i].j.j);
@@ -336,7 +338,7 @@
 
           }
           // console.log(boxpolys);
-          findTrendingPlacesAround(0,0);
+
         }
 
         //boxes contain the bounds and boxpoly contains the rectangles
@@ -389,13 +391,15 @@
             var lngCenter = (boxBoundary.j.O + boxBoundary.j.j)/2;
             // var centerOfBox = [latCenter,lngCenter];
             var centerOfBox = new google.maps.LatLng(latCenter,lngCenter);
+            console.log("center");
+            console.log(centerOfBox);
             return centerOfBox;
         }
 
         var listOfMarkers = [];
-        function findTrendingPlacesAround(l1,l2){
-          var site = "https://cooper-union-foursquare-proxy.herokuapp.com/trending?ll=40.7293461,-73.9905962";
-          //var site = "https://cooper-union-foursquare-proxy.herokuapp.com/trending?ll="+l1+","+l2;
+        function findTrendingPlacesAround(place){
+          // var site = "https://cooper-union-foursquare-proxy.herokuapp.com/trending?ll=40.7293461,-73.9905962";
+          var site = "https://cooper-union-foursquare-proxy.herokuapp.com/trending?ll="+place.lat()+","+place.lng();
           $.getJSON(site, function(response){
             var listOfPlaces = response.response.venues;
             console.log(listOfPlaces);
