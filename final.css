@@ -59,6 +59,10 @@ h3, p{
   margin-bottom: 0px;
 }
 
+a {
+  text-decoration: none;
+}
+
 #over_map {
   position: absolute;
   top: 50px;
