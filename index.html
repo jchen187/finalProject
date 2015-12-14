@@ -10,6 +10,21 @@
   </head>
   <body>
 
+    <section>
+      <div class="content">
+        <article>
+          <h2>HTML</h2>
+          <h2>NAME</h2>
+          <h2>IMAGE</h2>
+          <a href="#">link</a>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam quos dolores harum, corrupti, hic placeat nam autem consectetur veritatis, distinctio omnis magnam doloremque error rerum nihil ad libero cupiditate nesciunt.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet magnam totam sit natus magni voluptatem a molestiae rem. Voluptates illum ex quibusdam nostrum quas, est totam cum quasi nulla similique.</p>
+        </article>
+        <a href="#" class="close">x</a>
+      </div>
+    </section>
+
+
 
 
       <input id="origin-input" class="controls" type="text"
@@ -29,6 +44,15 @@
 
       <div id="map"></div>
 
+      <div id="over_map">
+        <nav>
+          <ul>
+            <li><a href="#">TEST</a></li>
+          </ul>
+        </nav>
+      </div>
+
+
 
 
 
@@ -40,6 +64,7 @@
     <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&signed_in=true&libraries=places&callback=initMap"
       async defer></script> -->
     <script src="menu.js"></script>
+    <!-- <script src="classie.js"></script> -->
 
     <script type="text/javascript">
       var map;
@@ -380,7 +405,7 @@
                       });
                       google.maps.event.addListener(marker,'click',function(){
                         var contentStr = '<h3>'+listOfPlaces[i].name+'</h3><p>';
-                        contentStr += listOfPlaces[i].hereNow.count + " people here.";
+                        contentStr += listOfPlaces[i].hereNow.count + " people here";
                         if (listOfPlaces[i].url)
                           contentStr += '<br><a href="'+ listOfPlaces[i].url+ ' ">'+listOfPlaces[i].url+'</a>';
                         contentStr +='</p>';
