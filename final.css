@@ -67,10 +67,18 @@ a {
   text-align: center;
 }
 
+.content img{
+  border: 1px solid black;
+  width: 50%;
+  height: 200px;
+  display:block;
+  margin:auto;
+}
+
 h3, h2, a, p{
   font-family: Roboto;
   /*margin: auto;*/
-  display: inline-block;
+  display: block;
 }
 
 .content a{

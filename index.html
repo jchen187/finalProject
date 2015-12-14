@@ -15,17 +15,14 @@
         <article>
           <h2 id="placeName">Name</h2>
           <img id="placeImage" />
-          <a id="placeLink" href="#">LINK</a>
           <br>
+          <a id="placeLink" href="#">Link</a>
           <br>
-          <p id="numPeople">__ Number of People Here.</p>
+          <p id="numPeople">Number of People Here.</p>
         </article>
         <a href="#" class="close">x</a>
       </div>
     </section>
-
-
-
 
       <input id="origin-input" class="controls" type="text"
           placeholder="Enter an origin location">
@@ -44,18 +41,14 @@
 
       <div id="map"></div>
 
-      <div id="over_map">
+      <!-- TESTING PURPOSES -->
+      <!-- <div id="over_map">
         <nav>
           <ul>
             <li><a href="#">TEST</a></li>
           </ul>
         </nav>
-      </div>
-
-
-
-
-
+      </div> -->
 
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
@@ -64,8 +57,6 @@
     <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&signed_in=true&libraries=places&callback=initMap"
       async defer></script> -->
     <script src="menu.js"></script>
-    <!-- <script src="classie.js"></script> -->
-
     <script type="text/javascript">
       var map;
       var boxpolys = null; //stores all the boxes that are on the map
@@ -301,7 +292,7 @@
               boxpolys[i] = new google.maps.Rectangle({
                 bounds: boxArray[i],
                 fillOpacity: 0,
-                strokeOpacity: 1.0,
+                strokeOpacity: 0.0, //changing it to 0 when sending in
                 strokeColor: '#000000',
                 strokeWeight: 1,
                 map: map
