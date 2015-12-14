@@ -63,6 +63,24 @@ a {
   text-decoration: none;
 }
 
+.content{
+  text-align: center;
+}
+
+h3, h2, a, p{
+  font-family: Roboto;
+  /*margin: auto;*/
+  display: inline-block;
+}
+
+.content a{
+  color:#4d90fe;
+}
+
+.content a:hover{
+  color:#3480fe;
+}
+
 #over_map {
   position: absolute;
   top: 50px;

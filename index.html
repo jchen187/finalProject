@@ -13,12 +13,12 @@
     <section>
       <div class="content">
         <article>
-          <h2>HTML</h2>
-          <h2>NAME</h2>
-          <h2>IMAGE</h2>
-          <a href="#">link</a>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam quos dolores harum, corrupti, hic placeat nam autem consectetur veritatis, distinctio omnis magnam doloremque error rerum nihil ad libero cupiditate nesciunt.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet magnam totam sit natus magni voluptatem a molestiae rem. Voluptates illum ex quibusdam nostrum quas, est totam cum quasi nulla similique.</p>
+          <h2 id="placeName">Name</h2>
+          <img id="placeImage" />
+          <a id="placeLink" href="#">LINK</a>
+          <br>
+          <br>
+          <p id="numPeople">__ Number of People Here.</p>
         </article>
         <a href="#" class="close">x</a>
       </div>
@@ -404,13 +404,25 @@
                         icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
                       });
                       google.maps.event.addListener(marker,'click',function(){
-                        var contentStr = '<h3>'+listOfPlaces[i].name+'</h3><p>';
-                        contentStr += listOfPlaces[i].hereNow.count + " people here";
+                        $("#placeName").html('<h2>'+listOfPlaces[i].name+'</h2>');
+                        $("#placeImage").html(findPictureOf(listOfPlaces[i].name));
+                        $("#placeLink").html('<a href=" '+ listOfPlaces[i].url+ '">'+listOfPlaces[i].url+'</a>');
+                        $("#numPeople").html('<p>' + listOfPlaces[i].hereNow.count + " people here.</p>");
+                        $("section").toggleClass(listOfPlaces[i].url);
+
+                        // $("section").html(contentStr);
+                        $("section").toggleClass("active");
+
+                        var contentStr = '<h2>'+listOfPlaces[i].name+'</h2><p>';
+                        contentStr += findPictureOf(listOfPlaces[i].name);
+                        contentStr += '<br>'+listOfPlaces[i].hereNow.count + " people here";
                         if (listOfPlaces[i].url)
                           contentStr += '<br><a href="'+ listOfPlaces[i].url+ ' ">'+listOfPlaces[i].url+'</a>';
                         contentStr +='</p>';
-                        infowindow.setContent(contentStr);
-                        infowindow.open(map,marker);
+
+                        //If we used infowindows
+                        //infowindow.setContent(contentStr);
+                        //infowindow.open(map,marker);
                       });
                       // marker.addListener('click', toggleBounce);
                       listOfMarkers.push(marker);
