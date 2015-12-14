@@ -51,3 +51,9 @@ html, body {
   font-size: 13px;
   font-weight: 300;
 }
+
+h3, p{
+  /*background-color: yellow;*/
+  margin-top: 0px;
+  margin-bottom: 0px;
+}

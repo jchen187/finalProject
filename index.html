@@ -9,24 +9,29 @@
 
   </head>
   <body>
-    <input id="origin-input" class="controls" type="text"
-        placeholder="Enter an origin location">
 
-    <input id="destination-input" class="controls" type="text"
-        placeholder="Enter a destination location">
 
-    <div id="mode-selector" class="controls">
-      <input type="radio" name="type" id="changemode-walking" checked="checked">
-      <label for="changemode-walking">Walking</label>
 
-      <!-- <input type="radio" name="type" id="changemode-transit">
-      <label for="changemode-transit">Transit</label> -->
+      <input id="origin-input" class="controls" type="text"
+          placeholder="Enter an origin location">
 
-      <input type="radio" name="type" id="changemode-driving">
-      <label for="changemode-driving">Driving</label>
-    </div>
+      <input id="destination-input" class="controls" type="text"
+          placeholder="Enter a destination location">
 
-    <div id="map"></div>
+      <div id="mode-selector" class="controls">
+        <input type="radio" name="type" id="changemode-walking" checked="checked">
+        <label for="changemode-walking">Walking</label>
+        <!-- <input type="radio" name="type" id="changemode-transit">
+        <label for="changemode-transit">Transit</label> -->
+        <input type="radio" name="type" id="changemode-driving">
+        <label for="changemode-driving">Driving</label>
+      </div>
+
+      <div id="map"></div>
+
+
+
+
 
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
@@ -34,6 +39,8 @@
     <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/routeboxer/src/RouteBoxer.js"></script>
     <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&signed_in=true&libraries=places&callback=initMap"
       async defer></script> -->
+    <script src="menu.js"></script>
+
     <script type="text/javascript">
       var map;
       var boxpolys = null; //stores all the boxes that are on the map
@@ -248,15 +255,9 @@
               var boxes = routeBoxer.box(path, distance);
               //boxes contain all the rectangles
 
-              //console.log("Boxes over here");
               console.log(boxes); //boxes is not empty. it is good
               drawBoxes(boxes);
-              //findPlaces(boxes,0);
-              // for (var i = 0; i < boxes.length; i++) {
-              //   var bounds = boxes[i];
-              //
-              //   // Perform search over this bounds
-              // }
+
             } else {
               window.alert('Directions request failed due to ' + status);
             }
@@ -320,13 +321,6 @@
                console.error(status);
                return;
              }
-             // alert(results.length);
-            //  console.log("bounds["+searchIndex+"] has " +results.length+ " results.");
-            //  console.log("boxesBound: " );
-            //  console.log(boxes[searchIndex] );
-            //  console.log("boxpolyBounds: ");
-            //  console.log(boxpolys[searchIndex] );
-
             console.log(results);
              //create a marker for each place/result that is found in the
             //  for (var i = 0, result; result = results[i]; i++) {
@@ -339,12 +333,9 @@
                var result = results[i];
               //  var latitude = result.geometry.location.lat();
               //  var longitude = result.geometry.location.lng();
-              //  console.log(latitude + "," + longitude);
-              //  console.log(boxes[searchIndex]);
               //  if (boxes[searchIndex].contains(google.maps.LatLng(result.latitude, result.longitude))){
               // if (boxpolys[searchIndex].getBounds().contains( google.maps.LatLng(latitude,longitude) )){
                  var marker = createMarker(result);
-              //  }
              }
            });
         }
@@ -376,7 +367,7 @@
                     var lat = listOfPlaces[i].location.lat;
                     var lng = listOfPlaces[i].location.lng;
 
-                    //
+                    //make sure within the boundaries
                     if (lat > boxBoundary.O.O && lat < boxBoundary.O.j && lng < boxBoundary.j.O && lng > boxBoundary.j.j){
                       var location = new google.maps.LatLng(lat,lng);
                       var marker = new google.maps.Marker({
@@ -386,6 +377,15 @@
                         //'link': response[i].link,
                         //'html': '<img src='+response[i].images.thumbnail.url+' />',
                         icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+                      });
+                      google.maps.event.addListener(marker,'click',function(){
+                        var contentStr = '<h3>'+listOfPlaces[i].name+'</h3><p>';
+                        contentStr += listOfPlaces[i].hereNow.count + " people here.";
+                        if (listOfPlaces[i].url)
+                          contentStr += '<br><a href="'+ listOfPlaces[i].url+ ' ">'+listOfPlaces[i].url+'</a>';
+                        contentStr +='</p>';
+                        infowindow.setContent(contentStr);
+                        infowindow.open(map,marker);
                       });
                       // marker.addListener('click', toggleBounce);
                       listOfMarkers.push(marker);
