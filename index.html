@@ -41,15 +41,6 @@
 
       <div id="map"></div>
 
-      <!-- TESTING PURPOSES -->
-      <!-- <div id="over_map">
-        <nav>
-          <ul>
-            <li><a href="#">TEST</a></li>
-          </ul>
-        </nav>
-      </div> -->
-
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
 
@@ -72,43 +63,15 @@
       var distance = 0.2; //0.2 is the default value
       console.log(routeBoxer);
 
-      // var coords;
       $(document).ready(function(){
         try {
           if (navigator.geolocation) {
-            /*
-            getCurrentPosition takes up to three arguments:
-            a successCallback
-            a errorCallback (optional)
-            PositionOptions (optional)
-
-            PositionOptions is an object with three properties:
-            enableHighAccuracy (boolean - default is false
-            if true, response times may be slowed
-            and battery consumption (on mobiles) may
-            increase)
-            timeout (in ms - default is infinity)
-            maximumAge (in ms - default is 0
-            if > 0, the API tries to fetch a cached position)
-            */
             navigator.geolocation.getCurrentPosition (function(position){
               var coords = position.coords;
               console.log(coords);
               console.log('Your geographical coordinates are ' + coords.latitude + ', ' + coords.longitude + '.');
 			        console.log('These coordinates are accurate to within ' + coords.accuracy + ' metres.');
 
-              /*
-              the position object contains a 'coords' and 'timestamp' object;
-              coords contains:
-              latitude
-              longitude
-              accuracy (in metres with 95% confidence)
-              altitude (in metres)
-              altitudeAccuracy (in metres)
-              heading (degrees clockwise relative to true north)
-              speed (in m/s - more relevant for the watchPosition function
-              which is not described here)
-              */
               initMap(coords);
 
             },
@@ -118,13 +81,6 @@
               } else if (error.code == 2) {
                 console.log('Unable to determine location - please ensure location tracking is enabled in your browser');
               }
-              /*
-              The error object has a 'code' and 'message' property
-              error.code can be:
-              1 (permission denied),
-              2 (position unavailable),
-              3 (timeout)
-              */
             },
   		        {enableHighAccuracy: true});
           }
@@ -137,7 +93,6 @@
           /* error handling here */
           alert('An error has occured');
         }
-        // initMap();
       });
 
       function initMap(coords) {
