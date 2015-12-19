@@ -94,6 +94,9 @@
           alert('An error has occured');
         }
       });
+    </script>
+
+    <script type="text/javascript">
 
       function initMap(coords) {
         var origin_place_id = null;
@@ -247,7 +250,7 @@
               boxpolys[i] = new google.maps.Rectangle({
                 bounds: boxArray[i],
                 fillOpacity: 0,
-                strokeOpacity: 0.0, //changing it to 0 when sending in
+                strokeOpacity: 1.0, //changing it to 0 when sending in
                 strokeColor: '#000000',
                 strokeWeight: 1,
                 map: map
