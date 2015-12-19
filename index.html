@@ -97,7 +97,6 @@
     </script>
 
     <script type="text/javascript">
-
       function initMap(coords) {
         var origin_place_id = null;
         var destination_place_id = null;
@@ -202,8 +201,10 @@
                 directionsService, directionsDisplay);
         });
 
+      }
+    </script>
 
-
+    <script type="text/javascript">
         function route(origin_place_id, destination_place_id, travel_mode,
                        directionsService, directionsDisplay) {
           //first remove all boxes and markers from before
@@ -238,82 +239,6 @@
           });
         }
 
-        // Draw the array of boxes as polylines on the map
-        function drawBoxes(boxArray) {
-          //boxArray has all the rectangles
-
-          //boxpoly stores all the boxes on the map
-          boxpolys = new Array(boxArray.length);
-
-          for (var i = 0; i < boxArray.length; i++) {
-            (function(i){
-              boxpolys[i] = new google.maps.Rectangle({
-                bounds: boxArray[i],
-                fillOpacity: 0,
-                strokeOpacity: 1.0, //changing it to 0 when sending in
-                strokeColor: '#000000',
-                strokeWeight: 1,
-                map: map
-              });
-
-              var centerOfBox = findCenterOf(boxArray[i]);
-              var marker=new google.maps.Marker({
-                  map:map,
-                  icon: {
-                    url: 'http://maps.gstatic.com/mapfiles/circle.png',
-                    //originally it was point 10,10
-                    anchor: new google.maps.Point(0, 0),
-                    scaledSize: new google.maps.Size(10, 17)
-                  },
-                  position:centerOfBox,
-                  animation: google.maps.Animation.DROP
-              });
-              centersOfBoxes.push(marker);
-
-              findTrendingPlacesAround(centerOfBox,boxArray[i]);
-
-              //find the places in the rectangle
-              //findPlaces(boxArray, i, boxpolys);
-            })(i);
-
-          }
-        }
-
-        //THIS IS THE OLD ONE
-        //boxes contain the bounds and boxpoly contains the rectangles
-        function findPlaces(boxes,searchIndex, boxpolys) {
-          //to get the bounds, boxes[searchIndex]
-
-           var request = {
-               bounds: boxes[searchIndex],
-               keyword: 'mcdonalds'
-               //types: ["gas_station"]
-           };
-           placeService.radarSearch(request, function (results, status) {
-             if (status != google.maps.places.PlacesServiceStatus.OK) {
-              //  alert("Request["+searchIndex+"] failed: "+status);
-               console.error(status);
-               return;
-             }
-            console.log(results);
-             //create a marker for each place/result that is found in the
-            //  for (var i = 0, result; result = results[i]; i++) {
-            for (var i = 0; i < results.length; i++) {
-               //check to see if within bounds
-               //draw is supposed to be a google.maps.Polygon
-               //  if(google.maps.geometry.poly.containsLocation(result, boxpolys) == true) {
-               //  for rectangle
-               // getBounds().contains(google.maps.LatLng(POINT_LAT, POINT_LNG))
-               var result = results[i];
-              //  var latitude = result.geometry.location.lat();
-              //  var longitude = result.geometry.location.lng();
-              //  if (boxes[searchIndex].contains(google.maps.LatLng(result.latitude, result.longitude))){
-              // if (boxpolys[searchIndex].getBounds().contains( google.maps.LatLng(latitude,longitude) )){
-                 var marker = createMarker(result);
-             }
-           });
-        }
-
         //this is based on how the info is being returned
         function findCenterOf(boxBoundary) {
             var latCenter = (boxBoundary.O.O + boxBoundary.O.j)/2;
@@ -324,7 +249,6 @@
             console.log(centerOfBox);
             return centerOfBox;
         }
-
 
         function findTrendingPlacesAround(place,boxBoundary){
           // var site = "https://cooper-union-foursquare-proxy.herokuapp.com/trending?ll=40.7293461,-73.9905962";
@@ -383,6 +307,54 @@
           });
         }
 
+        //THIS IS THE OLD ONE
+        //boxes contain the bounds and boxpoly contains the rectangles
+        function findPlaces(boxes,searchIndex, boxpolys) {
+          //to get the bounds, boxes[searchIndex]
+
+           var request = {
+               bounds: boxes[searchIndex],
+               keyword: 'mcdonalds'
+               //types: ["gas_station"]
+           };
+           placeService.radarSearch(request, function (results, status) {
+             if (status != google.maps.places.PlacesServiceStatus.OK) {
+              //  alert("Request["+searchIndex+"] failed: "+status);
+               console.error(status);
+               return;
+             }
+            console.log(results);
+             //create a marker for each place/result that is found in the
+            //  for (var i = 0, result; result = results[i]; i++) {
+            for (var i = 0; i < results.length; i++) {
+               //check to see if within bounds
+               //draw is supposed to be a google.maps.Polygon
+               //  if(google.maps.geometry.poly.containsLocation(result, boxpolys) == true) {
+               //  for rectangle
+               // getBounds().contains(google.maps.LatLng(POINT_LAT, POINT_LNG))
+               var result = results[i];
+              //  var latitude = result.geometry.location.lat();
+              //  var longitude = result.geometry.location.lng();
+              //  if (boxes[searchIndex].contains(google.maps.LatLng(result.latitude, result.longitude))){
+              // if (boxpolys[searchIndex].getBounds().contains( google.maps.LatLng(latitude,longitude) )){
+                 var marker = createMarker(result);
+             }
+           });
+        }
+
+    </script>
+
+    <script type="text/javascript">
+
+        function toggleBounce() {
+          if (this.getAnimation() !== null) {
+            this.setAnimation(null);
+          } else {
+            this.setAnimation(google.maps.Animation.BOUNCE);
+            setTimeout(function(){ this.setAnimation(null); }, 750);
+          }
+        }
+
         function createMarker(place){
             var placeLoc=place.geometry.location;
 
@@ -420,16 +392,6 @@
             gmarkers.push(marker);
         }
 
-        function toggleBounce() {
-          if (this.getAnimation() !== null) {
-            this.setAnimation(null);
-          } else {
-            this.setAnimation(google.maps.Animation.BOUNCE);
-            setTimeout(function(){ this.setAnimation(null); }, 750);
-          }
-        }
-
-
         //REMOVE PREVIOUS MARKERS
         function removeMarkers(){
             //THIS IS FOR THE OLD ONE
@@ -445,6 +407,47 @@
             }
         }
 
+        // Draw the array of boxes as polylines on the map
+        function drawBoxes(boxArray) {
+          //boxArray has all the rectangles
+
+          //boxpoly stores all the boxes on the map
+          boxpolys = new Array(boxArray.length);
+
+          for (var i = 0; i < boxArray.length; i++) {
+            (function(i){
+              boxpolys[i] = new google.maps.Rectangle({
+                bounds: boxArray[i],
+                fillOpacity: 0,
+                strokeOpacity: 1.0, //changing it to 0 when sending in
+                strokeColor: '#000000',
+                strokeWeight: 1,
+                map: map
+              });
+
+              var centerOfBox = findCenterOf(boxArray[i]);
+              var marker=new google.maps.Marker({
+                  map:map,
+                  icon: {
+                    url: 'http://maps.gstatic.com/mapfiles/circle.png',
+                    //originally it was point 10,10
+                    anchor: new google.maps.Point(0, 0),
+                    scaledSize: new google.maps.Size(10, 17)
+                  },
+                  position:centerOfBox,
+                  animation: google.maps.Animation.DROP
+              });
+              centersOfBoxes.push(marker);
+
+              findTrendingPlacesAround(centerOfBox,boxArray[i]);
+
+              //find the places in the rectangle
+              //findPlaces(boxArray, i, boxpolys);
+            })(i);
+
+          }
+        }
+
         //clear boxes currently on the map
         function clearBoxes() {
           if (boxpolys != null) {
@@ -455,10 +458,8 @@
           }
           boxpolys = null;
         }
-      }
 
-
-      </script>
+    </script>
 
   </body>
 </html>
