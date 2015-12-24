@@ -38,6 +38,7 @@ function findPictureOf(keyword){
   var image;
   //Add markers to the site
   $.getJSON(site, function(response){
+    console.log(site);
     console.log(response);
     //loop through the responses and find the ones with location
       for (var i = 0; i < response.length; i++){

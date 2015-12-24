@@ -241,8 +241,8 @@
 
         //this is based on how the info is being returned
         function findCenterOf(boxBoundary) {
-            var latCenter = (boxBoundary.O.O + boxBoundary.O.j)/2;
-            var lngCenter = (boxBoundary.j.O + boxBoundary.j.j)/2;
+            var latCenter = (boxBoundary.N.N + boxBoundary.N.j)/2;
+            var lngCenter = (boxBoundary.j.N + boxBoundary.j.j)/2;
             // var centerOfBox = [latCenter,lngCenter];
             var centerOfBox = new google.maps.LatLng(latCenter,lngCenter);
             console.log("center");
@@ -266,7 +266,7 @@
                     var lng = listOfPlaces[i].location.lng;
 
                     //make sure within the boundaries
-                    if (lat > boxBoundary.O.O && lat < boxBoundary.O.j && lng < boxBoundary.j.O && lng > boxBoundary.j.j){
+                    if (lat > boxBoundary.N.N && lat < boxBoundary.N.j && lng < boxBoundary.j.N && lng > boxBoundary.j.j){
                       var location = new google.maps.LatLng(lat,lng);
                       var marker = new google.maps.Marker({
                         title: listOfPlaces[i].name,
@@ -307,41 +307,6 @@
           });
         }
 
-        //THIS IS THE OLD ONE
-        //boxes contain the bounds and boxpoly contains the rectangles
-        function findPlaces(boxes,searchIndex, boxpolys) {
-          //to get the bounds, boxes[searchIndex]
-
-           var request = {
-               bounds: boxes[searchIndex],
-               keyword: 'mcdonalds'
-               //types: ["gas_station"]
-           };
-           placeService.radarSearch(request, function (results, status) {
-             if (status != google.maps.places.PlacesServiceStatus.OK) {
-              //  alert("Request["+searchIndex+"] failed: "+status);
-               console.error(status);
-               return;
-             }
-            console.log(results);
-             //create a marker for each place/result that is found in the
-            //  for (var i = 0, result; result = results[i]; i++) {
-            for (var i = 0; i < results.length; i++) {
-               //check to see if within bounds
-               //draw is supposed to be a google.maps.Polygon
-               //  if(google.maps.geometry.poly.containsLocation(result, boxpolys) == true) {
-               //  for rectangle
-               // getBounds().contains(google.maps.LatLng(POINT_LAT, POINT_LNG))
-               var result = results[i];
-              //  var latitude = result.geometry.location.lat();
-              //  var longitude = result.geometry.location.lng();
-              //  if (boxes[searchIndex].contains(google.maps.LatLng(result.latitude, result.longitude))){
-              // if (boxpolys[searchIndex].getBounds().contains( google.maps.LatLng(latitude,longitude) )){
-                 var marker = createMarker(result);
-             }
-           });
-        }
-
     </script>
 
     <script type="text/javascript">
@@ -354,6 +319,7 @@
             setTimeout(function(){ this.setAnimation(null); }, 750);
           }
         }
+
 
         function createMarker(place){
             var placeLoc=place.geometry.location;
