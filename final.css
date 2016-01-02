@@ -139,6 +139,8 @@ a {
 
 .content img{
   background-image: url("comingsoon.jpg");
+  background-size: contain;
+  background-position: center center;
   border: 1px solid black;
   width: 50%;
   height: 200px;
