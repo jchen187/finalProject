@@ -3,6 +3,13 @@ html, body {
   margin: 0;
   padding: 0;
 }
+
+#introScreen{
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
 #map {
   height: 100%;
   width: 100%;
@@ -16,6 +23,69 @@ html, body {
   height: 32px;
   outline: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.spinner-4 {
+  position: relative;
+  height: 100px;
+}
+
+.spinner {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+}
+
+.spinner-4 .spinner:before, .spinner-4 .spinner:after {
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto 0;
+  width: 50px;
+  height: 50px;
+  content: "";
+  border-radius: 25px;
+}
+.spinner-4 .spinner:before {
+  left: 0;
+  background-color: #28aadc;
+  animation: spinner-4-left 0.5s infinite ease;
+}
+.spinner-4 .spinner:after {
+  right: 0;
+  background-color: #ff3c50;
+  animation: spinner-4-right 0.5s infinite ease;
+}
+
+/* left ball */
+@keyframes spinner-4-left {
+  0% {
+    transform: scale(0.5);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(0.5);
+  }
+}
+
+/* right ball */
+@keyframes spinner-4-right {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.5);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 #origin-input,

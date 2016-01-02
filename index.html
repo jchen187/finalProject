@@ -10,6 +10,7 @@
   </head>
   <body>
 
+    <!-- THIS IS THE POPUP WINDOW THAT IS SUPPOSED TO POP UP WHEN YOU CLICK ON A TRENDING PLACE -->
     <section>
       <div class="content">
         <article>
@@ -23,6 +24,14 @@
         <a href="#" class="close">x</a>
       </div>
     </section>
+
+
+      <!-- <div id="introScreen">
+        <section class="spinner-4">
+          <div class="spinner"></div>
+        </section>
+      </div> -->
+
 
       <input id="origin-input" class="controls" type="text"
           placeholder="Enter an origin location">
@@ -39,7 +48,9 @@
         <label for="changemode-driving">Driving</label>
       </div>
 
-      <div id="map"></div>
+      <div id="map">
+
+      </div>
 
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
@@ -73,7 +84,6 @@
 			        console.log('These coordinates are accurate to within ' + coords.accuracy + ' metres.');
 
               initMap(coords);
-
             },
             function(error){
               if (error.code == 1) {
@@ -210,7 +220,9 @@
       }
     </script>
 
+
     <script type="text/javascript">
+    //FIND THE ROUTE FROM ONE PLACE TO ANOTHER
         function route(origin_place_id, destination_place_id, travel_mode,
                        directionsService, directionsDisplay) {
           //first remove all boxes and markers from before
