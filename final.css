@@ -8,27 +8,41 @@ html, body {
 /* ====================================
                 SPINNER
 ==================================== */
-section:last-child {
+/*section:last-child {
   border: 1px solid black;
   position: relative;
   margin-bottom: 0;
-}
+  width: 50%;
+  height: 100%;
+}*/
 
 .spinner-4 {
-  /*position: relative;*/
   border: 1px solid blue;
-  height: 100px;
+  height: 100%;
+  width: 100%;
+
+}
+
+.spinner-4 h3{
+  position: relative;
+  top: 45%;
+  transform: translateY(-50%);
+  text-align: center;
+  margin: 0 auto;
+  font-family: Dosis,Roboto;
 }
 
 .spinner {
   position: absolute;
+  top: 55%;
+  transform: translateY(-50%);
   z-index: 1;
   left: 0;
   right: 0;
   margin: 0 auto;
   width: 100px;
   height: 100px;
-  border: 1px solid pink;
+  /*border: 1px solid pink;*/
 }
 
 .spinner-4 .spinner:before, .spinner-4 .spinner:after {
