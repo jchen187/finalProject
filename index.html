@@ -47,9 +47,7 @@
         <label for="changemode-driving">Driving</label>
       </div>
 
-      <div id="map">
-
-      </div>
+      <div id="map"></div>
 
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
@@ -131,6 +129,7 @@
           $("#origin-input").css("opacity","1.0");
           $("#destination-input").css("opacity","1.0");
           $("#mode-selector").css("opacity","1.0");
+          $(".spinner-4").css("display","none");
         });
 
         var travel_mode = google.maps.TravelMode.WALKING;
