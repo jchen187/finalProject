@@ -129,6 +129,9 @@
           //this part runs when the mapobject is created and rendered     google.maps.event.addListenerOnce(map, 'tilesloaded', function(){
           //this part runs when the mapobject shown for the first time     });
           console.log('Map loaded!');
+          $("#origin-input").css("opacity","1.0");
+          $("#destination-input").css("opacity","1.0");
+          $("#mode-selector").css("opacity","1.0");
         });
 
         var travel_mode = google.maps.TravelMode.WALKING;

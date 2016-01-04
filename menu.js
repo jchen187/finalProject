@@ -45,6 +45,7 @@ function findPictureOf(keyword){
   }
 
   return image;
+}
 /*
   var originalWord = keyword;
   //remove the whitespaces and then put back together.
@@ -76,7 +77,6 @@ function findPictureOf(keyword){
   return image;
 
   */
-}
 
 //remove all the spaces from the word
 function splitAndJoin(word) {
@@ -94,18 +94,19 @@ function removeLastWordFrom(word) {
 function getResultsFromSite(originalWord) {
   var keyword = splitAndJoin(originalWord);
   var site = "http://cooper-union-instagram-proxy.herokuapp.com/search/tag/"+keyword+"?count=100";
+
   $.getJSON(site, function(response){
     console.log(site);
     console.log(response);
 
     //and you have one word at least
     //sometimes you might not get any results, and then you should remove one word from the original
-    if (response.length == 0 && originalWord.split(" ").length > 1){
+    if (response.length == 0 && originalWord.split(" ").length > 1) {
       var newWord = removeLastWordFrom(originalWord);
       getResultsFromSite(newWord);
     }
     else {
       return response;
     }
-  }
+  });
 }
