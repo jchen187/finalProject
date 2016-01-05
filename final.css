@@ -1,5 +1,5 @@
 html, body {
-  /*background-color: #323232;*/
+  background-color: #323232;
   height: 100%;
   margin: 0;
   padding: 0;
@@ -17,15 +17,23 @@ html, body {
 }*/
 
 .spinner-4 {
-  border: 1px solid blue;
+  /*border: 1px solid blue;*/
   height: 100%;
   width: 100%;
-
 }
 
 .spinner-4 h3{
   position: relative;
-  top: 45%;
+  top: 40%;
+  transform: translateY(-50%);
+  text-align: center;
+  margin: 0 auto;
+  font-family: Dosis,Roboto;
+}
+
+.spinner-4 p {
+  position: relative;
+  top: 60%;
   transform: translateY(-50%);
   text-align: center;
   margin: 0 auto;
@@ -34,7 +42,7 @@ html, body {
 
 .spinner {
   position: absolute;
-  top: 55%;
+  top: 50%;
   transform: translateY(-50%);
   z-index: 1;
   left: 0;
@@ -108,6 +116,43 @@ html, body {
     transform: scale(1);
   }
 }
+
+/* ====================================
+                INFO ABOUT APP
+==================================== */
+#help {
+  position: relative;
+  /*padding: 10px 10px 10px 10px;*/
+  z-index: 11;
+  /*height: 0;*/
+}
+
+#help p{
+  height: 0;
+  overflow: hidden; /*so the p's dont go on top of one another*/
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 1.0s, opacity 0.5s linear;
+
+  font-family: Dosis;
+  color: white;
+  /*font-size: 0px;*/
+  /*font is 0 so it is not visible at first*/
+}
+
+/*#help::after {
+  content: url("smallerdown.png");
+  margin: 0 auto;
+  border: 1px solid red;
+  position: absolute;
+  height: auto;
+  width: auto;
+  max-width: 100px;
+  max-height: 60px;
+  right: 10px;
+  bottom: -40px;
+}*/
+
 /* ====================================
                 MAP
 ==================================== */
@@ -145,6 +190,15 @@ html, body {
   width: 200px;
 }
 
+#help-button {
+  /*opacity: 0.0;*/
+  margin-top: 10px;
+  background-color: #fff;
+  font-family: Roboto;
+  margin-right: 12px;
+  padding: 0 11px 0 13px;
+}
+
 #origin-input:focus,
 #destination-input:focus {
   border-color: #4d90fe;
@@ -175,6 +229,7 @@ h3, p{
   /*background-color: yellow;*/
   margin-top: 0px;
   margin-bottom: 0px;
+  color: white;
 }
 
 a {

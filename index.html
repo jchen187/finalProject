@@ -30,24 +30,28 @@
     <section class="spinner-4">
       <h3>Loading Map</h3>
       <div class="spinner"></div>
+      <p>If you need help, hover over the black arrow in the top right corner.</p>
     </section>
 
-      <input id="origin-input" class="controls" type="text"
+    <input id="origin-input" class="controls" type="text"
           placeholder="Enter an origin location">
 
-      <input id="destination-input" class="controls" type="text"
+    <input id="destination-input" class="controls" type="text"
           placeholder="Enter a destination location">
 
-      <div id="mode-selector" class="controls">
-        <input type="radio" name="type" id="changemode-walking" checked="checked">
-        <label for="changemode-walking">Walking</label>
-        <!-- <input type="radio" name="type" id="changemode-transit">
-        <label for="changemode-transit">Transit</label> -->
-        <input type="radio" name="type" id="changemode-driving">
-        <label for="changemode-driving">Driving</label>
-      </div>
+    <img id="help-button" class="controls" src="smallerdown.png" />
 
-      <div id="map"></div>
+    <div id="mode-selector" class="controls">
+      <input type="radio" name="type" id="changemode-walking" checked="checked">
+      <label for="changemode-walking">Walking</label>
+      <!-- <input type="radio" name="type" id="changemode-transit">
+      <label for="changemode-transit">Transit</label> -->
+      <input type="radio" name="type" id="changemode-driving">
+      <label for="changemode-driving">Driving</label>
+    </div>
+
+    <div id="help"><p>Once the initial and final endpoints are entered, you will have in front of you all the trending places, returned from Foursquare. Click on any of the green pins to get learn more about the place. Hopefully, there will be a picture from instagram as well.<p></div>
+    <div id="map"></div>
 
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
@@ -104,6 +108,9 @@
     </script>
 
     <script type="text/javascript">
+      $("#help::after").hover(function(){
+        console.log("hi");
+      });
       function initMap(coords) {
         var origin_place_id = null;
         var destination_place_id = null;
@@ -130,6 +137,10 @@
           $("#destination-input").css("opacity","1.0");
           $("#mode-selector").css("opacity","1.0");
           $(".spinner-4").css("display","none");
+          //in the future I might want to remove this
+
+          // $("#help > p").css("font-size","16px");
+          // $("#map").css("height","100%");
         });
 
         var travel_mode = google.maps.TravelMode.WALKING;
@@ -147,6 +158,10 @@
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(origin_input);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(destination_input);
         map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(modes);
+
+        // var helpButton = $("#help-button");
+        var helpButton = document.getElementById('help-button');
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(helpButton);
 
         var origin_autocomplete = new google.maps.places.Autocomplete(origin_input);
         origin_autocomplete.bindTo('bounds', map);
