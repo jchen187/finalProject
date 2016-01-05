@@ -4,6 +4,7 @@ html, body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  /*you can no longer scroll when the map is loading*/
 }
 
 /* ====================================
@@ -124,20 +125,19 @@ html, body {
 #help {
   position: relative;
   /*padding: 10px 10px 10px 10px;*/
-  z-index: 11;
   /*height: 0;*/
 }
 
 #help p{
-  height: 0;
-  overflow: hidden; /*so the p's dont go on top of one another*/
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 1.0s, opacity 0.5s linear;
+  /*height: 0;*/
+  /*overflow: hidden; /*so the p's dont go on top of one another*/*/
+  /*visibility: hidden;*/
+  /*opacity: 0;*/
+  /*transition: visibility 1.0s, opacity 0.5s linear;*/
 
   font-family: Dosis;
   color: white;
-  /*font-size: 0px;*/
+  font-size: 0px;
   /*font is 0 so it is not visible at first*/
 }
 

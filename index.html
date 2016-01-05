@@ -108,8 +108,22 @@
     </script>
 
     <script type="text/javascript">
-      $("#help::after").hover(function(){
-        console.log("hi");
+      var showing = false;
+      $("#help-button").click(function(){
+        if (!showing) {
+          $("#help").css("padding","10px 10px 10px 10px");
+          $("#help > p").css("font-size","16px");
+          $("#help > p").css("font-family","Dosis");
+          $(this).css("transform","scaleY(-1)");
+
+        }
+        else {
+          $("#help").css("padding","0px 0px 0px 0px");
+          $("#help > p").css("font-size","0px");
+          $(this).css("transform","scaleY(1)");
+
+        }
+        showing = !showing;
       });
       function initMap(coords) {
         var origin_place_id = null;
