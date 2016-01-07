@@ -1,12 +1,11 @@
 (function(){
 
   $(document).ready(function(){
-
       //if press on x button
       $(".close").click(function(){
+        //remove or add the window to the screen
         $("section").toggleClass("active");
       });
-
     });
 
 })();

@@ -135,7 +135,7 @@ html, body {
   /*opacity: 0;*/
   /*transition: visibility 1.0s, opacity 0.5s linear;*/
 
-  font-family: Dosis;
+  font-family: Dosis,Roboto;
   color: white;
   font-size: 0px;
   /*font is 0 so it is not visible at first*/
@@ -254,7 +254,7 @@ a {
 }
 
 h3, h2, a, p{
-  font-family: Roboto;
+  font-family: Dosis,Roboto;
   /*margin: auto;*/
   display: block;
 }
@@ -353,7 +353,7 @@ section .content a.close {
   right: 0;
   width: 40px;
   height: 40px;
-  font-family: Roboto;
+  font-family: Dosis,Roboto;
   background-color: #4d90fe;
   color: #fff;
   font-weight: 700;
