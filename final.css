@@ -267,6 +267,7 @@ h3, h2, a, p{
   color:#3480fe;
 }
 
+/*
 #over_map {
   position: absolute;
   top: 50px;
@@ -294,6 +295,7 @@ h3, h2, a, p{
 #over_map a:hover {
   background-color: #85c420;
 }
+*/
 
 section:first-child {
   position: fixed;
