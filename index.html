@@ -12,14 +12,13 @@
   <body>
 
     <!-- THIS IS THE POPUP WINDOW THAT IS SUPPOSED TO POP UP WHEN YOU CLICK ON A TRENDING PLACE -->
-    <section>
+    <section class="popup">
       <div class="content">
         <article>
           <h2 id="placeName">Name</h2>
           <img id="placeImage" />
           <br>
           <a id="placeLink" href="#">Link</a>
-          <br>
           <p id="numPeople">Number of People Here.</p>
         </article>
         <a href="#" class="close">x</a>
@@ -113,13 +112,11 @@
           $("#help > p").css("font-size","16px");
           $("#help > p").css("font-family","Dosis");
           $(this).css("transform","scaleY(-1)");
-
         }
         else {
           $("#help").css("padding","0px 0px 0px 0px");
           $("#help > p").css("font-size","0px");
           $(this).css("transform","scaleY(1)");
-
         }
         showing = !showing;
       });
@@ -325,11 +322,11 @@
                         icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
                       });
                       google.maps.event.addListener(marker,'click',function(){
-                        $("#placeName").html('<h2>'+listOfPlaces[i].name+'</h2>');
+                        $("#placeName").text(listOfPlaces[i].name);
                         $("#placeImage").html(findPictureOf(listOfPlaces[i].name));
-                        $("#placeLink").html('<a href=" '+ listOfPlaces[i].url+ '">'+listOfPlaces[i].url+'</a>');
-                        $("#numPeople").html('<p>' + listOfPlaces[i].hereNow.count + " people here.</p>");
-                        $("section").toggleClass(listOfPlaces[i].url);
+                        $("#placeLink").text(listOfPlaces[i].url);
+                        $("#numPeople").text(listOfPlaces[i].hereNow.count + " people here.");
+                        // $("section").toggleClass(listOfPlaces[i].url);
 
                         // $("section").html(contentStr);
                         $("section").toggleClass("active");

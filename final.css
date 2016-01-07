@@ -31,6 +31,7 @@ html, body {
   text-align: center;
   margin: 0 auto;
   font-family: Dosis,Roboto;
+  color: white;
 }
 
 .spinner-4 p {
@@ -40,6 +41,7 @@ html, body {
   text-align: center;
   margin: 0 auto;
   font-family: Dosis,Roboto;
+  color: white;
 }
 
 .spinner {
@@ -227,11 +229,8 @@ html, body {
 /* ====================================
           POPUP WINDOW
 ==================================== */
-h3, p{
-  /*background-color: yellow;*/
-  margin-top: 0px;
-  margin-bottom: 0px;
-  color: white;
+#placeName, #placeLink, #numPeople{
+  /*padding-top: 10px;*/
 }
 
 a {
@@ -267,36 +266,6 @@ h3, h2, a, p{
   color:#3480fe;
 }
 
-/*
-#over_map {
-  position: absolute;
-  top: 50px;
-  left: 10px;
-  z-index: 99;
-}
-
-#over_map ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-}
-#over_map li {
-  display: block;
-  margin: 0 0 1px 0;
-}
-#over_map a {
-  display: block;
-  padding: 20px;
-  color: #fff;
-  background-color: #b4e664;
-  text-align: center;
-}
-#over_map a:hover {
-  background-color: #85c420;
-}
-*/
-
 section:first-child {
   position: fixed;
   top: -9999px;
@@ -316,7 +285,7 @@ section.active {
   left: 0;
   right: 0;
   visibilty: visible;
-  opacity: 0;
+  /*opacity: 0;*/
   opacity: 1;
 }
 
